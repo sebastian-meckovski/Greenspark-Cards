@@ -51,10 +51,6 @@
   flex-direction: column;
 }
 
-.tooltip {
-  background-color: white;
-}
-
 .hidden {
   transform-origin: center;
   animation-name: fadeOutOpacity;

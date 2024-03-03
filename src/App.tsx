@@ -1,24 +1,12 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import "./App.css";
-// import { IProductWidget } from "seb-components-library";
+import { IProductWidget } from "seb-components-library";
 import axios from "axios";
 import {
   ProductWidget,
   ToolTip,
-  WidgetType,
-  productWidgetActions,
   productWidgetColors,
 } from "seb-components-library";
-
-export interface IProductWidget {
-  readonly id: number;
-  readonly type: WidgetType;
-  readonly action: productWidgetActions;
-  amount: number;
-  active: boolean;
-  linked: boolean;
-  selectedColor: productWidgetColors;
-}
 
 function App() {
   const baseURL = "https://api.mocki.io/v2/016d11e8/product-widgets";
@@ -162,9 +150,6 @@ function App() {
               handleInfoMarkBlur={() => {
                 setCurrentId(x.id);
                 tooltipLinkRef.current?.focus();
-              }}
-              HandleInfoMarkKeyDown={(e) => {
-                return;
               }}
             />
           );
