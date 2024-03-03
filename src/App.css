@@ -1,38 +1,88 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+#root {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  height: 100%;
 }
 
-.App-link {
-  color: #61dafb;
+.App {
+  background-color: #f9f9f9;
+  margin: auto;
+  text-align: left;
+  min-height: 27rem;
+  width: 54rem;
+  max-width: 90vw;
+  max-height: 90vh;
+  box-shadow: 0rem 2rem 10rem 1px rgba(0, 0, 0, 0.315);
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 2rem;
+  overflow-y: auto;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.CardsContainer {
+  gap: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  @media (max-width: 768px) {
+    justify-content: space-evenly;
   }
-  to {
-    transform: rotate(360deg);
+}
+
+.CardsContainer-flex {
+  display: flex;
+}
+
+.seb-tooltip-container,
+.hidden {
+  background-color: transparent;
+  margin: 0;
+  border: 0;
+  align-items: center;
+  animation-name: fadeInOpacity;
+  animation-duration: 0.3s;
+  width: 18rem;
+  height: 12rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.tooltip {
+  background-color: white;
+}
+
+.hidden {
+  transform-origin: center;
+  animation-name: fadeOutOpacity;
+  opacity: 0;
+}
+
+.hidden-after-animation {
+  display: none;
+}
+
+@keyframes fadeInOpacity {
+  0% {
+    opacity: 0;
+    scale: 0.8;
+  }
+  100% {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+@keyframes fadeOutOpacity {
+  0% {
+    opacity: 1;
+    scale: 1;
+  }
+  100% {
+    opacity: 0;
+    scale: 0.8;
   }
 }
