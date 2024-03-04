@@ -20,7 +20,8 @@ You will also see any lint errors in the console.
 
 ### `npm run test:e2e`
 
-Launches the test runner in the terminal and executes a number of end-to-end tests. Tests are written in [Cypress](https://www.cypress.io/)
+Launches the test runner in the terminal and executes a number of end-to-end tests. Tests are written in [Cypress](https://www.cypress.io/). Make sure you are running the application locally on 
+[http://localhost:3000](http://localhost:3000) before initiating the test runner.
 
 ### `npm run build`
 
