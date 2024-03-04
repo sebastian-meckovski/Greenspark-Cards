@@ -6,6 +6,7 @@ import {
   ProductWidget,
   ToolTip,
   productWidgetColors,
+  LoadingSpinner,
 } from "seb-components-library";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
   const [isShowing, setIsShowing] = useState(false);
   const [coords, setCoords] = useState({ left: 5, top: 20 });
   const [currentId, setCurrentId] = useState<number>(1);
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchData = async () => {
     try {
@@ -32,6 +34,8 @@ function App() {
       setProductData(data);
     } catch (error) {
       console.error("Error fetching data:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -89,72 +93,77 @@ function App() {
     <div className="App">
       <h1>Per product widgets</h1>
       <hr></hr>
-      <div className="CardsContainer">
-        {productData.map((x) => {
-          return (
-            <ProductWidget
-              key={x.id}
-              amount={x.amount}
-              action={x.action}
-              id={x.id}
-              active={x.active}
-              type={x.type}
-              linked={x.linked}
-              availableColors={Object.values(productWidgetColors)}
-              selectedColor={x.selectedColor}
-              handleCheckboxClick={(e: { target: { checked: boolean } }) => {
-                setProductData((prev: IProductWidget[]) => {
-                  const newArray = prev.map((y) => {
-                    if (x.id === y.id) {
-                      y.linked = e.target.checked;
-                    }
-                    return y;
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        <div className="CardsContainer">
+          {productData.map((x) => {
+            return (
+              <ProductWidget
+                key={x.id}
+                amount={x.amount}
+                action={x.action}
+                id={x.id}
+                active={x.active}
+                type={x.type}
+                linked={x.linked}
+                availableColors={Object.values(productWidgetColors)}
+                selectedColor={x.selectedColor}
+                handleCheckboxClick={(e: { target: { checked: boolean } }) => {
+                  setProductData((prev: IProductWidget[]) => {
+                    const newArray = prev.map((y) => {
+                      if (x.id === y.id) {
+                        y.linked = e.target.checked;
+                      }
+                      return y;
+                    });
+                    return newArray;
                   });
-                  return newArray;
-                });
-              }}
-              handleSwitchClick={(e: { target: { checked: boolean } }) => {
-                setProductData((prev: IProductWidget[]) => {
-                  const newArray = prev.map((y) => {
-                    if (x.id === y.id) {
-                      y.active = e.target.checked;
-                    } else {
-                      y.active = false;
-                    }
-                    return y;
+                }}
+                handleSwitchClick={(e: { target: { checked: boolean } }) => {
+                  setProductData((prev: IProductWidget[]) => {
+                    const newArray = prev.map((y) => {
+                      if (x.id === y.id) {
+                        y.active = e.target.checked;
+                      } else {
+                        y.active = false;
+                      }
+                      return y;
+                    });
+                    return newArray;
                   });
-                  return newArray;
-                });
-              }}
-              handleColorClick={(e: any, color: string) => {
-                const availableColors: string[] =
-                  Object.values(productWidgetColors);
-                const index = availableColors.indexOf(color);
-                const selectedColor = Object.keys(productWidgetColors)[index];
+                }}
+                handleColorClick={(e: any, color: string) => {
+                  const availableColors: string[] =
+                    Object.values(productWidgetColors);
+                  const index = availableColors.indexOf(color);
+                  const selectedColor = Object.keys(productWidgetColors)[index];
 
-                setProductData((prev: IProductWidget[]) => {
-                  const newArray = prev.map((y) => {
-                    if (x.id === y.id) {
-                      y.selectedColor =
-                        productWidgetColors[
-                          selectedColor as keyof typeof productWidgetColors
-                        ];
-                    }
-                    return y;
+                  setProductData((prev: IProductWidget[]) => {
+                    const newArray = prev.map((y) => {
+                      if (x.id === y.id) {
+                        y.selectedColor =
+                          productWidgetColors[
+                            selectedColor as keyof typeof productWidgetColors
+                          ];
+                      }
+                      return y;
+                    });
+                    return newArray;
                   });
-                  return newArray;
-                });
-              }}
-              handleOnMouseEnter={(e) => handleOnMouseEnter(e, 300)}
-              handleInfoMarkFocus={(e) => handleOnMouseEnter(e, 0)}
-              handleInfoMarkBlur={() => {
-                setCurrentId(x.id);
-                tooltipLinkRef.current?.focus();
-              }}
-            />
-          );
-        })}
-      </div>
+                }}
+                handleOnMouseEnter={(e) => handleOnMouseEnter(e, 300)}
+                handleInfoMarkFocus={(e) => handleOnMouseEnter(e, 0)}
+                handleInfoMarkBlur={() => {
+                  setCurrentId(x.id);
+                  tooltipLinkRef.current?.focus();
+                }}
+              />
+            );
+          })}
+        </div>
+      )}
+
       <dialog
         className={isShowing ? "seb-tooltip-container" : "hidden"}
         ref={tooltipRef as React.RefObject<HTMLDialogElement>}
