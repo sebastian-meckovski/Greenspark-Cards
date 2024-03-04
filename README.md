@@ -18,9 +18,9 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
-### `npm test:e2e`
+### `npm run test:e2e`
 
-Launches the test runner in the terminal and executes a number of end-to-end tests.
+Launches the test runner in the terminal and executes a number of end-to-end tests. Tests are written in [Cypress](https://www.cypress.io/)
 
 ### `npm run build`
 
