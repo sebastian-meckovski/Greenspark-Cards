@@ -1,4 +1,4 @@
-describe("Greenspark challenge Cypress tests", () => {
+describe("Greenspark Cards Cypress tests", () => {
   beforeEach(() => {
     cy.visit("localhost:3000");
   });

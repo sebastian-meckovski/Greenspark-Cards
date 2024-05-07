@@ -1,4 +1,4 @@
-# Greenspark Challenge React App
+# Greenspark Cards React App
 
 For a quicker preview, visit the hosted application using [this link](https://witty-meadow-0ac855f03.4.azurestaticapps.net)
 

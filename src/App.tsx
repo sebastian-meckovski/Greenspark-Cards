@@ -1,16 +1,15 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import "./App.css";
 import { IProductWidget } from "seb-components-library";
-import axios from "axios";
 import {
   ProductWidget,
   ToolTip,
   productWidgetColors,
   LoadingSpinner,
 } from "seb-components-library";
+import { fetchData } from "./Shared/ApiMock";
 
-function App() {
-  const baseURL = "https://api.mocki.io/v2/016d11e8/product-widgets";
+export default function App() {
   const [productData, setProductData] = useState<IProductWidget[]>([]);
   const tooltipRef = useRef<HTMLElement>(null);
   const tooltipLinkRef = useRef<HTMLElement>(null);
@@ -18,26 +17,6 @@ function App() {
   const [coords, setCoords] = useState({ left: 5, top: 20 });
   const [currentId, setCurrentId] = useState<number>(1);
   const [isLoading, setIsLoading] = useState(true);
-
-  const fetchData = async () => {
-    try {
-      const response = await axios.get(baseURL);
-      const data = response.data.map((widget: IProductWidget) => {
-        const color: string = widget.selectedColor;
-        const validColor =
-          productWidgetColors[color as keyof typeof productWidgetColors];
-        return {
-          ...widget,
-          selectedColor: validColor,
-        };
-      });
-      setProductData(data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   function onAnimationEnd(e: any) {
     if (e.animationName === "fadeOutOpacity") {
@@ -51,7 +30,6 @@ function App() {
     },
     timeOut: number
   ) => {
-    console.log(e.target.nodeName);
     if (!isShowing && e.target.nodeName === "IMG") {
       setTimeout(() => {
         const position = e.target.getBoundingClientRect();
@@ -61,7 +39,19 @@ function App() {
     }
   };
   useEffect(() => {
-    fetchData();
+    fetchData().then(
+      (res) => {
+        setProductData(res)
+      }
+    ).catch(
+      (error: any) => {
+        console.error(error)
+      }
+    ).finally(
+      () => {
+        setIsLoading(false)
+      }
+    );
   }, []);
 
   useLayoutEffect(() => {
@@ -144,7 +134,7 @@ function App() {
                       if (x.id === y.id) {
                         y.selectedColor =
                           productWidgetColors[
-                            selectedColor as keyof typeof productWidgetColors
+                          selectedColor as keyof typeof productWidgetColors
                           ];
                       }
                       return y;
@@ -176,7 +166,6 @@ function App() {
       >
         <ToolTip
           tooltipAnchorRef={tooltipLinkRef}
-          handleTooltipAnchorBlur={() => {}}
           handleTooltipAnchorKeyPress={(e) => {
             if (e.key === "Tab") {
               setIsShowing(false);
@@ -205,5 +194,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
